@@ -1,12 +1,16 @@
+import FloatingAddButton from "@/components/FloatingAddButton";
+import AddStoolForm from "@/components/forms/AddStoolForm";
 import * as schema from "@/db/schema";
 import { Button } from "@react-navigation/elements";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useSQLiteContext } from "expo-sqlite";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function StoolScreen() {
   const db = useSQLiteContext();
   const drizzleDb = drizzle(db, { schema });
+  const [modalVisible, setModalVisible] = useState(false);
 
   const addEntry = async () => {
     try {
@@ -40,6 +44,14 @@ export default function StoolScreen() {
       <Text style={styles.text}>Stool screen</Text>
       <Button onPress={addEntry}>Press Me</Button>
       <Button onPress={printEntries}>Print entries</Button>
+      {/* Floating button */}
+      <FloatingAddButton setModalVisible={setModalVisible} />
+
+      {/* Modal form */}
+      <AddStoolForm
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
     </View>
   );
 }
